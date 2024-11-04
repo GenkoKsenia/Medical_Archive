@@ -1,6 +1,6 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
-from medicines.serializers import PatientSerializer, MedicineSerializer, DoctorSerializer, ReleaseFormSerializer, TherapeuticActionSerializer
+from medicines.serializers import PatientSerializer, MedicineSerializer, DoctorSerializer, ReleaseFormSerializer, TherapeuticActionSerializer, MedicineGetSerializer, PatientGetSerializer
 from medicines.models import Patient, Medicine, Doctor, ReleaseForm, TherapeuticAction
 
 
@@ -9,20 +9,30 @@ class PatientsViewset(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
     ):
     queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return PatientGetSerializer
+        return PatientSerializer
 
 class MedicineViewset(
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
     ):
     queryset = Medicine.objects.all()
-    serializer_class = MedicineSerializer
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return MedicineGetSerializer
+        return MedicineSerializer
+
+
 
 class DoctorViewset(
     mixins.CreateModelMixin,
