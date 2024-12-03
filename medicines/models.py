@@ -10,6 +10,8 @@ class Patient(models.Model):
     medicine = models.ForeignKey("Medicine", on_delete=models.CASCADE, null=True)
     doctor = models.ForeignKey("Doctor", on_delete=models.CASCADE, null=True)
 
+    picture = models.ImageField("Изображение", null=True, upload_to="patients")
+    
     class Meta:
         verbose_name = "Пациент"
         verbose_name_plural = "Пациенты"

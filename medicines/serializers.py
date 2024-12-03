@@ -34,11 +34,11 @@ class PatientGetSerializer(serializers.ModelSerializer):
     medicine = MedicineSerializer(read_only=True)
     class Meta:
         model = Patient
-        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine']
+        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture']
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine']
+        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture']
 
     
