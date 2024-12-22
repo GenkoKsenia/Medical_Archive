@@ -11,6 +11,7 @@ class Patient(models.Model):
     doctor = models.ForeignKey("Doctor", on_delete=models.CASCADE, null=True)
 
     picture = models.ImageField("Изображение", null=True, upload_to="patients")
+    user = models.ForeignKey("auth.User", verbose_name="Пользователь", on_delete=models.CASCADE, null=True)
     
     class Meta:
         verbose_name = "Пациент"

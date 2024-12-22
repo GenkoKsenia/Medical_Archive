@@ -30,15 +30,25 @@ class MedicineSerializer(serializers.ModelSerializer):
         fields = ['id', "name", 'releaseForm', 'therapeuticAction']
 
 class PatientGetSerializer(serializers.ModelSerializer):
+    def create(self, validated_data): 
+        if 'request' in self.context:
+            validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
     doctor = DoctorSerializer(read_only=True)
     medicine = MedicineSerializer(read_only=True)
     class Meta:
         model = Patient
-        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture']
+        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture', 'user']
 
 class PatientSerializer(serializers.ModelSerializer):
+    def create(self, validated_data): 
+        if 'request' in self.context:
+            validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+    
     class Meta:
         model = Patient
-        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture']
+        fields = ['id', 'lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'doctor', 'medicine', 'picture', 'user']
 
     

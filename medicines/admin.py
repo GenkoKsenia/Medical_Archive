@@ -5,7 +5,7 @@ from medicines.models import Medicine, Patient, Doctor, ReleaseForm, Therapeutic
 # Register your models here.
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ['lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'medicine__name']
+    list_display = ['lastName', 'firstName', 'patronymic', 'dateBirth', 'number', 'medicine__name', 'user']
 
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):

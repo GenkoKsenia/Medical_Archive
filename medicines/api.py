@@ -13,10 +13,19 @@ class PatientsViewset(
     GenericViewSet
     ):
     queryset = Patient.objects.all()
+    
+
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
             return PatientGetSerializer
         return PatientSerializer
+    
+    def get_queryset(self):
+        user = self.request.user
+        qs = super().get_queryset()
+        if user.is_superuser:
+            return qs
+        return qs.filter(user=user)      
 
 class MedicineViewset(
     mixins.CreateModelMixin,
@@ -39,6 +48,7 @@ class DoctorViewset(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
     ):
     queryset = Doctor.objects.all()
@@ -49,6 +59,7 @@ class ReleaseFormViewset(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
     ):
     queryset = ReleaseForm.objects.all()
@@ -59,6 +70,7 @@ class TherapeuticActionViewset(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
     ):
     queryset = TherapeuticAction.objects.all()

@@ -4,6 +4,8 @@ npm run dev - запустить сервер
 python manage.py makemigrations - создать миграцию
 python manage.py migrate - запустить миграцию
 
+python manage.py generate_data - сгенерировать данные
+
 
 http://127.0.0.1:8000/ - сервер
 http://localhost:8000/admin - админка
