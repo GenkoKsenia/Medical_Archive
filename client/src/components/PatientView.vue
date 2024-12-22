@@ -156,10 +156,6 @@ function closeFullScreen() {
 
 const dataItemImageEditShow = ref()
 
-
-
-
-
 async function clearDataImage() {
     console.log("patientToEdit.value.picture")
     console.log(patientToEdit.value.picture)
@@ -167,6 +163,32 @@ async function clearDataImage() {
     console.log(patientToEdit.value.picture)
     console.log("patientToEdit.value.picture")
 
+}
+
+async function downloadExcel() {
+    try {
+        const response = await axios.get(`/api/patients/export-excel/`, {
+            responseType: "blob", // Указываем, что ожидаем бинарные данные
+        });
+
+        // Создаем URL для скачивания файла
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+
+        // Указываем имя файла
+        const contentDisposition = response.headers["content-disposition"];
+        const filename = contentDisposition
+            ? contentDisposition.split("filename=")[1]
+            : "file.xlsx";
+
+        link.setAttribute("download", filename.replace(/"/g, ""));
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        console.error("Ошибка при скачивании файла Excel:", error);
+    }
 }
 </script>
 
@@ -234,16 +256,22 @@ async function clearDataImage() {
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row row-item">
                 <div class="col-auto">
                     <button class="btn btn-primary">
                         Добавить
                     </button>
                 </div>
             </div>
-
         </div>
     </form>
+    <div class="row row-item">
+        <div class="col-auto">
+            <button class="btn btn-danger" @click="downloadExcel">
+                Скачать
+            </button>
+        </div>
+    </div>
     <div v-for="item in patients" class="patient-item">
         <div class="row">
             <div class="col item-info" v-show="item.picture">
